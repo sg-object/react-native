@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, BackHandler, ToastAndroid } from 'react-native';
 import StyleVars from '../../style/StyleVars'
+import SplashScreen from 'react-native-splash-screen'
 
 const main = {
   flex: 1,
@@ -26,6 +27,9 @@ class Home extends React.Component {
     navigation.addListener('blur', () => {
       this.backHandler.remove()
     })
+    setTimeout(() => {
+      SplashScreen.hide()
+    }, 1000)
   }
 
   _backHandler = async () => {
