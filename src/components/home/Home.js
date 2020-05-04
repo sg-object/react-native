@@ -1,5 +1,7 @@
-import React from 'react';
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Text, View, BackHandler, ToastAndroid } from 'react-native';
+import { inject } from 'mobx-react'
 import StyleVars from '../../style/StyleVars'
 import SplashScreen from 'react-native-splash-screen'
 
@@ -10,6 +12,7 @@ const main = {
   backgroundColor: StyleVars.colors.white
 }
 
+@inject('homeStore')
 class Home extends React.Component {
 
   constructor(props){
@@ -48,10 +51,14 @@ class Home extends React.Component {
   render() {
     return (
       <View style={main}>
-        <Text>Home!</Text>
+        <Text>{this.props.homeStore.text}</Text>
       </View>
     )
   }
+}
+
+Home.propTypes = {
+  homeStore: PropTypes.object
 }
 
 export default Home;

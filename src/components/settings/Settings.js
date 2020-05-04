@@ -1,6 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-import Style from './Settings.style'
+import { Container, Content, List, ListItem, Text } from 'native-base'
 
 class Settings extends React.Component {
 
@@ -10,31 +9,27 @@ class Settings extends React.Component {
 
   render() {
     return (
-      <View style={Style.main}>
-        <TouchableOpacity
-          style={Style.menuButton}
-          onPress={() => this.props.navigation.navigate('Setting01')}>
-          <Text style={Style.menuText}>
-            Setting 01
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={Style.menuButton}
-          onPress={() => this.props.navigation.navigate('Setting02')}
-        >
-          <Text style={Style.menuText}>
-            Setting 02
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={Style.menuButton}
-          onPress={() => this.props.navigation.navigate('Setting03')}
-        >
-          <Text style={Style.menuText}>
-            Setting 03
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <Container>
+        <Content>
+          <List>
+            <ListItem onPress={() => this.props.navigation.navigate('Setting01')}>
+              <Text>
+                Setting 01
+              </Text>
+            </ListItem>
+            <ListItem onPress={() => this.props.navigation.navigate('Setting02')}>
+              <Text>
+                Setting 02
+              </Text>
+            </ListItem>
+            <ListItem onPress={() => this.props.navigation.navigate('Setting03')}>
+              <Text>
+                Setting 03
+              </Text>
+            </ListItem>
+          </List>
+        </Content>
+      </Container>
     )
   }
 }

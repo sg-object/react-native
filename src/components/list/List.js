@@ -1,36 +1,57 @@
-import React from 'react';
-import { SafeAreaView, FlatList } from 'react-native';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Style from './List.style'
+import { View, Text, FlatList, Alert } from 'react-native'
+import { observer, inject } from 'mobx-react'
 import Item from './Item'
 
+@inject('listStore')
+@observer
 class List extends React.Component {
   
   constructor(props){
     super(props)
-    this.state = {
-      list: []
-    }
   }
 
   componentDidMount(){
-    let arr = []
-    for (let i = 1; i <= 30; i++) {
-      arr.push({'id': i, 'name': 'Item_' + i})
-    }
-    this.setState({list: arr})
+    this._addItem()
+  }
+
+  componentWillUnmount(){
+    this.props.listStore.unmount()
   }
 
   goDetail = (info) => {
-    this.props.navigation.navigate('Detail', {
-      info: info
-    })
+    this.props.listStore.setDetail(info)
+    this.props.navigation.navigate('Detail')
+  }
+
+  _header = () => {
+    return (
+      <View style={Style.header}>
+        <Text>Count : {this.props.listStore.list.length}</Text>
+      </View>        
+    )
+  }
+
+  _addItem = () => {
+    if(this.props.listStore.list.length >= 30){
+      Alert.alert("Over Count!!!")
+    }else{
+      this.props.listStore.addItem()
+    }
   }
 
   render() {
     return (
-      <SafeAreaView>
+      <View style={Style.main}>
         <FlatList
-          data={this.state.list}
+          data={this.props.listStore.list}
           keyExtractor={(item, index) => index + ''}
+          ListHeaderComponent={this._header}
+          onEndReached={this._addItem.bind(this)}
+          onEndReachedThreshold={0.2}
+          initialNumToRender={10}
           renderItem={({ item }) => (
             <Item
               info={item}
@@ -38,9 +59,14 @@ class List extends React.Component {
             />
           )}
         />
-      </SafeAreaView>
+      </View>
     )
   }
+}
+
+List.propTypes = {
+  navigation: PropTypes.object,
+  listStore: PropTypes.object
 }
 
 export default List
